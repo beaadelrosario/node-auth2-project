@@ -1,0 +1,31 @@
+seed
+
+exports.seed = function (knex) {
+  // Deletes ALL existing entries
+  return knex("users")
+    .truncate()
+    .then(function () {
+      // Inserts seed entries
+      return knex("users").insert([
+        { username: "bea", password: "password", department: "earth" },
+        { username: "izzy", password: "pass", department: "mars" },
+        { username: "sam", password: "password1", department: "venus" },
+      ]);
+    });
+};
+
+table
+
+  
+exports.up = function (knex) {
+    return knex.schema.createTable("users", (tbl) => {
+      tbl.increments();
+      tbl.string("username").notNullable().unique().index();
+      tbl.string("password").notNullable();
+      tbl.string("department").notNullable();
+    });
+  };
+  
+  exports.down = function (knex) {
+    return knex.schema.dropTableIfExists("users");
+  };
